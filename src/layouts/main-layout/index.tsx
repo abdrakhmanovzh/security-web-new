@@ -13,7 +13,7 @@ export const MainLayout = ({ children, className }: Props) => {
   return (
     <div
       className={cn(
-        'flex min-h-[100svh] w-screen flex-col items-center justify-center bg-main-white',
+        'max-w-screen flex min-h-[100svh] flex-col items-center justify-center bg-main-white',
         font.className,
         className
       )}

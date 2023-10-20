@@ -1,36 +1,65 @@
 import { useRouter } from 'next/router'
-import { useGetViolation } from '../../hooks'
+import { useGetViolations } from '../../hooks'
 import { ErrorMessage, Loading } from '@/shared/ui'
 import { HorizontalTable } from '@/modules/core/widgets'
+import dayjs from 'dayjs'
+import 'dayjs/locale/ru'
+import Image from 'next/image'
+import { useEffect, useState } from 'react'
+import { IViolation } from '../../entities'
+import { axiosInstance } from '@/modules/core/utils'
 
 export const ViolationDetails = () => {
   const router = useRouter()
   const { id } = router.query
+  const [violation, setViolation] = useState<IViolation | null>(null)
+  const [image, setImage] = useState<string | null>(null)
 
   const {
-    data: violation,
-    isLoading: isViolationLoading,
-    isError: isViolationError
-  } = useGetViolation(id as string)
+    data: violationsData,
+    isLoading: isViolationsLoading,
+    isError: isViolationsError
+  } = useGetViolations()
 
-  if (isViolationLoading) {
+  useEffect(() => {
+    if (violationsData && violationsData.data && violationsData.data.length > 0) {
+      setViolation(violationsData.data.filter((item) => item.detection.id === Number(id))[0])
+    }
+  }, [id, violationsData])
+
+  useEffect(() => {
+    async function getImage() {
+      if (violation) {
+        const response = await axiosInstance.get(
+          `/frame/process-incident/${violation.process_incident.id}`
+        )
+
+        setImage('/home/user/projects' + response.data?.content)
+      }
+    }
+    getImage()
+  }, [violation])
+
+  if (isViolationsLoading) {
     return (
       <div className="flex h-32 w-full items-center justify-center">
         <Loading />
       </div>
     )
-  } else if (isViolationError || violation === null) {
+  } else if (isViolationsError) {
     return (
       <div className="flex h-32 w-full items-center justify-center">
         <ErrorMessage message="Произошла ошибка, попробуйте еще раз." />
       </div>
     )
   } else {
-    if (violation !== null) {
+    if (violationsData?.data.length !== 0) {
       return (
         <>
           <div className="h-96 w-[35%]">
-            <div className="h-full w-full rounded-xl bg-gray-300"></div>
+            <div className="relative h-full w-full rounded-xl bg-gray-300">
+              {image && <Image src={image} alt="image" fill />}
+            </div>
           </div>
           <HorizontalTable
             head={[
@@ -44,7 +73,19 @@ export const ViolationDetails = () => {
               'Тип нарушения',
               'Статус распознания'
             ]}
-            data={Object.values(violation as Object).filter((value) => value !== '')}
+            data={[
+              id,
+              violation?.region.name,
+              violation?.place.name,
+              violation?.zone.name,
+              `Камера ${violation?.camera.purpose}`,
+              dayjs(violation?.created_at)
+                .locale('ru')
+                .format('MMMM YYYY'),
+              dayjs(violation?.created_at).format('HH:mm'),
+              'Человек',
+              violation?.detection.is_approved ? 'Подтверждено' : 'Не подтверждено'
+            ]}
           />
         </>
       )

@@ -1,12 +1,8 @@
 export type IMobileGroup = {
-  id: string
-  camera_id: string
-  region_id: string
-  zone_id: string
-  date: string
-  time: string
-  gate_id: string
-  type: string
-  status: string
-  image: string
+  id: number
+  person_id: number
+  person_name: string
+  is_approved: boolean
+  stage: number
+  created_at: string
 }

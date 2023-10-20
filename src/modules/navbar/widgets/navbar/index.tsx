@@ -8,6 +8,11 @@ import { isLinkActive } from '@/modules/navbar/utils'
 export const Navbar = () => {
   const router = useRouter()
 
+  const handleLogout = () => {
+    // localStorage.removeItem('token')
+    router.push('/auth/signin')
+  }
+
   return (
     <nav className="absolute top-0 flex h-20 w-full items-center justify-between bg-white px-48 py-0 shadow-md">
       <ul className="hidden h-full items-center gap-8 lg:flex">
@@ -25,7 +30,7 @@ export const Navbar = () => {
           </li>
         ))}
       </ul>
-      <Button text="ВЫЙТИ" className="w-fit px-3" />
+      <Button text="ВЫЙТИ" onClick={handleLogout} className="w-fit px-3" />
     </nav>
   )
 }

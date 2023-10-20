@@ -1,13 +1,25 @@
 import { ErrorMessage, Loading } from '@/shared/ui'
 import { useGetCheckpoints } from '../../hooks'
-import { EntityTable } from '@/modules/core/widgets'
+import dayjs from 'dayjs'
+import 'dayjs/locale/ru'
+import { useRouter } from 'next/router'
 
 export const CheckpointsTable = () => {
+  const router = useRouter()
+
   const {
-    data: checkpoints,
+    data: checkpointsData,
     isLoading: isCheckpointsLoading,
     isError: isCheckpointsError
   } = useGetCheckpoints()
+
+  const handleRowClick = (path: string) => {
+    router.push(path)
+  }
+
+  const tableHead = ['#', 'Имя', 'КПП', 'Камера', 'Дата', 'Время', 'Статус распознавания']
+
+  console.log(checkpointsData?.data)
 
   if (isCheckpointsLoading) {
     return (
@@ -22,23 +34,36 @@ export const CheckpointsTable = () => {
       </div>
     )
   } else {
-    if (checkpoints.length > 0) {
+    if (checkpointsData.data.length > 0) {
       return (
-        <EntityTable
-          type="checkpoints"
-          head={[
-            '#',
-            'Регион',
-            'Зона/Объект',
-            'КПП',
-            'Камера',
-            'Дата',
-            'Время',
-            'Тип нарушения',
-            'Статус распознавания'
-          ]}
-          data={checkpoints}
-        />
+        <table className="table w-full overflow-x-scroll bg-white">
+          <thead className="text-sm text-black">
+            <tr>
+              {tableHead.map((heading, index) => (
+                <th key={index} className="col-span-1">
+                  {heading}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {checkpointsData.data.map((row, index) => (
+              <tr
+                key={index}
+                className="cursor-pointer hover:bg-blue-100"
+                onClick={() => handleRowClick(`/checkpoints/${index + 1}`)}
+              >
+                <td>{index + 1}</td>
+                <td>{row.name}</td>
+                <td>{row.zone_id}</td>
+                <td>Камера {row.camera_id}</td>
+                <td>{dayjs(row.created_at).locale('ru').format('MMMM YYYY')}</td>
+                <td>{dayjs(row.created_at).locale('ru').format('HH:mm')}</td>
+                <td>{row.is_approved ? 'Подтверждено' : 'Не подтверждено'}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       )
     } else {
       return <h2>Нету данных...</h2>

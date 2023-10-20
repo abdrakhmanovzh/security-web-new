@@ -1,7 +1,7 @@
 import axios, { AxiosError } from 'axios'
-import { ILogin, ILoginResponse } from '@/modules/auth/entities'
+import { IRegister } from '../../entities'
 
-export const login = async (data: ILogin) => {
+export const login = async (data: IRegister) => {
   try {
     const response = await axios.post<ILoginResponse>('http://192.168.50.147:8000/auth/jwt/login', {
       ...data

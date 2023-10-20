@@ -1,5 +1,18 @@
+import {
+  ICamera,
+  IDetection,
+  IPlace,
+  IProcessIncident,
+  IRegion,
+  IZone
+} from '@/modules/core/entities'
+
 export type IIncident = {
-  frame_id: number
   created_at: string
-  id: number
+  detection: IDetection
+  process_incident: IProcessIncident
+  camera: ICamera
+  zone: IZone
+  place: IPlace
+  region: IRegion
 }

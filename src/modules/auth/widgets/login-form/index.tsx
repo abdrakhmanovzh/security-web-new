@@ -29,9 +29,10 @@ export const LoginForm = () => {
     try {
       await login(data)
       router.push('/')
-    } catch (error) {
+    } catch (errorObject) {
+      const error = errorObject as Error
       setError('root', {
-        message: 'Произошла ошибка, попробуйте еще раз'
+        message: error.message ?? 'Произошла ошибка, попробуйте еще раз'
       })
     }
   }

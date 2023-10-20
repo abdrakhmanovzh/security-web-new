@@ -1,25 +1,17 @@
-import { useQuery } from '@tanstack/react-query'
+import { useQueryClient } from '@tanstack/react-query'
 import { IIncident } from '../entities'
+import { AxiosResponse } from 'axios'
 
-export const useGetIncident = (id: string) => {
-  return useQuery(['incident', id], async () => {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const object: IIncident = {
-          id: '1',
-          region_id: 'Москва',
-          zone_id: 'Центр',
-          gate_id: 'КПП-1',
-          camera_id: 'Камера-1',
-          date: '01.01.2022',
-          time: '12:00',
-          type: 'Превышение скорости',
-          status: 'Распознано',
-          image: ''
-        }
+export const useGetIncident = (detectionId: number) => {
+  const queryClient = useQueryClient()
 
-        resolve(object)
-      }, 1000)
+  const incidentsData = queryClient.getQueryData<AxiosResponse<IIncident[]>>(['incidents'])
+
+  if (incidentsData?.data.length === 0) {
+    queryClient.refetchQueries(['incidents']).then(() => {
+      return null
     })
-  })
+  }
+
+  return incidentsData?.data.filter((incident) => incident.detection.id === detectionId)
 }

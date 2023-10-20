@@ -1,10 +1,11 @@
+import { IIncident } from '@/modules/incident/entities'
 import { IViolation } from '@/modules/violation/entities'
 import { useRouter } from 'next/router'
 
 interface Props {
   type: 'violations' | 'checkpoints' | 'mobile-groups' | 'incidents'
   head: string[]
-  data: IViolation[]
+  data: IViolation[] | IIncident[]
 }
 
 export const EntityTable = ({ data, head, type }: Props) => {

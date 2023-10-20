@@ -10,7 +10,7 @@ export default function IncidentsPage() {
         <title>Происшествия</title>
       </Head>
       <MainLayout className="items-start justify-start pt-20">
-        <main className="flex w-full flex-1 flex-col gap-6 px-4 pt-8 lg:px-48">
+        <main className="flex w-full flex-1 flex-col gap-6 px-4 py-8 lg:px-48">
           <Header
             text="Учет, контроль и анализ происшествий"
             className="text-center text-2xl lg:text-start"

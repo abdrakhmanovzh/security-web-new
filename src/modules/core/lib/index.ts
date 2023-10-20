@@ -1,1 +1,0 @@
-export { getZones } from './getZones'
