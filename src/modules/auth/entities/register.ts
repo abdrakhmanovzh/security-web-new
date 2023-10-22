@@ -1,4 +1,9 @@
 export type IRegister = {
-  inn: string
+  email: string
   password: string
+}
+
+export type IRegisterResponse = {
+  id: number
+  email: string
 }

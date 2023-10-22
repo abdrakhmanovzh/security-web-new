@@ -31,10 +31,10 @@ export const ViolationDetails = () => {
     async function getImage() {
       if (violation) {
         const response = await axiosInstance.get(
-          `/frame/process-incident/${violation.process_incident.id}`
+          `/frame/bbox?incident_id=${violation.process_incident.id}`
         )
 
-        setImage('/home/user/projects' + response.data?.content)
+        setImage('data:image/jpeg;base64,' + response.data?.image)
       }
     }
     getImage()
@@ -58,7 +58,7 @@ export const ViolationDetails = () => {
         <>
           <div className="h-96 w-[35%]">
             <div className="relative h-full w-full rounded-xl bg-gray-300">
-              {image && <Image src={image} alt="image" fill />}
+              {image && <Image src={image} alt="" fill />}
             </div>
           </div>
           <HorizontalTable

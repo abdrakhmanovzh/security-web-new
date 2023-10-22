@@ -61,7 +61,7 @@ export const ViolationTable = () => {
                 className="cursor-pointer hover:bg-blue-100"
                 onClick={() => handleRowClick(`/violations/${row.detection.id}`)}
               >
-                <td>{index + 1}</td>
+                <td>{row.detection.id}</td>
                 <td>{row.region.name}</td>
                 <td>{row.place.name}</td>
                 <td>{row.zone.name}</td>

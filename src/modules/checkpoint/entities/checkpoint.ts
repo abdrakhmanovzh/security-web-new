@@ -1,9 +1,8 @@
 export type ICheckpoint = {
-  camera_id: string
-  content: string
   created_at: string
+  id: number
   is_approved: boolean
   name: string
   zone_id: string
-  id: number
+  content: string
 }

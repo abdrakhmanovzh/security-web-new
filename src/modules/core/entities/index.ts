@@ -40,3 +40,11 @@ export type IRegion = {
   created_at: string
   id: number
 }
+
+export type ICompany = {
+  name: string
+  gov_id: string
+  address_id: number
+  created_at: string
+  id: number
+}

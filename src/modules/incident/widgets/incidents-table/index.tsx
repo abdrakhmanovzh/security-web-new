@@ -61,13 +61,13 @@ export const IncidentsTable = () => {
                 className="cursor-pointer hover:bg-blue-100"
                 onClick={() => handleRowClick(`/incidents/${row.detection.id}`)}
               >
-                <td>{index + 1}</td>
+                <td>{row.detection.id}</td>
                 <td>{row.region.name}</td>
                 <td>{row.place.name}</td>
                 <td>{row.zone.name}</td>
                 <td>Камера {row.camera.purpose}</td>
-                <td>{dayjs(row.created_at).locale('ru').format('MMMM YYYY')}</td>
-                <td>{dayjs(row.created_at).format('HH:mm')}</td>
+                <td>{dayjs(row.detection.created_at).locale('ru').format('MMMM YYYY')}</td>
+                <td>{dayjs(row.detection.created_at).format('HH:mm')}</td>
                 <td>Человек</td>
                 <td>{row.detection.is_approved ? 'Подтверждено' : 'Не подтверждено'}</td>
               </tr>

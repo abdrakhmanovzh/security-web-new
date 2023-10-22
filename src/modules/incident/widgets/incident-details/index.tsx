@@ -5,18 +5,41 @@ import { useRouter } from 'next/router'
 import { ErrorMessage, Loading } from '@/shared/ui'
 import { HorizontalTable } from '@/modules/core/widgets'
 import { useGetIncidents } from '@/modules/incident/hooks'
-import { useRef } from 'react'
-import { IncidentImage } from './incident-image'
+import { useEffect, useRef, useState } from 'react'
+import { IIncident } from '../../entities'
+import { axiosInstance } from '@/modules/core/utils'
 
 export const IncidentDetails = () => {
   const router = useRouter()
   const { id } = router.query
+
+  const [incident, setIncident] = useState<IIncident | null>(null)
+  const [image, setImage] = useState<string | null>(null)
 
   const {
     data: incidentsData,
     isLoading: isIncidentsLoading,
     isError: isIncidentsError
   } = useGetIncidents()
+
+  useEffect(() => {
+    if (incidentsData && incidentsData.data && incidentsData.data.length > 0) {
+      setIncident(incidentsData.data.filter((item) => item.detection.id === Number(id))[0])
+    }
+  }, [id, incidentsData])
+
+  useEffect(() => {
+    async function getImage() {
+      if (incident) {
+        const response = await axiosInstance.get(
+          `/frame/bbox?incident_id=${incident.process_incident.id}`
+        )
+
+        setImage('data:image/jpeg;base64,' + response.data?.image)
+      }
+    }
+    getImage()
+  }, [incident])
 
   if (isIncidentsLoading) {
     return (
@@ -32,11 +55,13 @@ export const IncidentDetails = () => {
     )
   } else {
     if (incidentsData?.data.length !== 0) {
-      const incident = incidentsData.data.filter((item) => item.detection.id === Number(id))
-
       return (
         <>
-          <IncidentImage />
+          <div className="h-96 w-[35%]">
+            <div className="relative h-full w-full rounded-xl bg-gray-300">
+              {image && <Image src={image} alt="" fill />}
+            </div>
+          </div>
           <HorizontalTable
             head={[
               'ID',
@@ -51,14 +76,16 @@ export const IncidentDetails = () => {
             ]}
             data={[
               id,
-              incident[0].region.name,
-              incident[0].place.name,
-              incident[0].zone.name,
-              `Камера ${incident[0].camera.purpose}`,
-              dayjs(incident[0].created_at).locale('ru').format('MMMM YYYY'),
-              dayjs(incident[0].created_at).format('HH:mm'),
+              incident?.region.name,
+              incident?.place.name,
+              incident?.zone.name,
+              `Камера ${incident?.camera.purpose}`,
+              dayjs(incident?.detection.created_at)
+                .locale('ru')
+                .format('MMMM YYYY'),
+              dayjs(incident?.detection.created_at).format('HH:mm'),
               'Человек',
-              incident[0].detection.is_approved ? 'Подтверждено' : 'Не подтверждено'
+              incident?.detection.is_approved ? 'Подтверждено' : 'Не подтверждено'
             ]}
           />
         </>

@@ -3,6 +3,7 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { IRegister } from '../../entities'
 import { Button, ErrorMessage } from '@/shared/ui'
 import Link from 'next/link'
+import { register as signup } from '@/modules/auth/features/register'
 
 export const RegisterForm = () => {
   const router = useRouter()
@@ -14,11 +15,11 @@ export const RegisterForm = () => {
     setError
   } = useForm<IRegister>()
 
-  const innRegister = register('inn', {
+  const emailRegister = register('email', {
     required: 'Поле обязательно для заполнения',
     pattern: {
-      value: /^\d{12}$/,
-      message: 'ИНН должен состоять из 12 цифр'
+      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+      message: 'Некорректный email'
     }
   })
   const passwordRegister = register('password', {
@@ -27,26 +28,27 @@ export const RegisterForm = () => {
 
   const onSubmit: SubmitHandler<IRegister> = async (data) => {
     try {
-      // await login(data);
-      router.push('/')
-    } catch (error) {
+      await signup(data)
+      router.push('/auth/create-person')
+    } catch (errorObject) {
+      const error = errorObject as Error
       setError('root', {
-        message: 'Произошла ошибка, попробуйте еще раз'
+        message: error.message ?? 'Произошла ошибка, попробуйте еще раз'
       })
     }
   }
 
   return (
-    <div className="bg-white flex h-fit w-full max-w-sm flex-col gap-2 rounded-lg border-2 px-4 py-6 shadow-md">
+    <div className="flex h-fit w-full max-w-sm flex-col gap-2 rounded-lg border-2 bg-white px-4 py-6 shadow-md">
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
         <div className="flex flex-col gap-3">
-          <label className="font-semibold">ИНН</label>
+          <label className="font-semibold">Почта</label>
           <input
-            {...innRegister}
-            placeholder="ИНН"
-            className="border-gray-200 ring-neutral-400 rounded-lg border-2 p-2 outline-none focus:ring-1"
+            {...emailRegister}
+            placeholder="Почта"
+            className="rounded-lg border-2 border-gray-200 p-2 outline-none ring-neutral-400 focus:ring-1"
           />
-          {errors?.inn?.message && <ErrorMessage message={errors.inn.message} />}
+          {errors?.email?.message && <ErrorMessage message={errors.email.message} />}
         </div>
         <div className="flex flex-col gap-3">
           <label className="font-semibold">Пароль</label>
@@ -54,7 +56,7 @@ export const RegisterForm = () => {
             {...passwordRegister}
             placeholder="Пароль"
             type="password"
-            className="border-gray-200 ring-neutral-400 rounded-lg border-2 p-2 outline-none focus:ring-1"
+            className="rounded-lg border-2 border-gray-200 p-2 outline-none ring-neutral-400 focus:ring-1"
           />
           {errors?.password?.message && <ErrorMessage message={errors.password.message} />}
         </div>
@@ -69,10 +71,10 @@ export const RegisterForm = () => {
         </div>
 
         <Link href="/auth/signin" className="w-full">
-          <Button text="ВОЙТИ" className="bg-neutral-800 mt-2" />
+          <Button text="ВОЙТИ" className="mt-2 bg-neutral-800" />
         </Link>
 
-        <Link href="#" className="text-primary mt-4 w-full text-center hover:underline">
+        <Link href="#" className="mt-4 w-full text-center text-primary hover:underline">
           Скачать инструкции и приложение
         </Link>
       </form>

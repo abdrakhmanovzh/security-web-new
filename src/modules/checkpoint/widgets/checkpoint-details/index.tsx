@@ -1,9 +1,10 @@
 import { useRouter } from 'next/router'
-import { useGetCheckpoints } from '../../hooks'
+import { useGetCheckpoint, useGetCheckpoints } from '../../hooks'
 import { ErrorMessage, Loading } from '@/shared/ui'
 import { HorizontalTable } from '@/modules/core/widgets'
 import dayjs from 'dayjs'
 import 'dayjs/locale/ru'
+import Image from 'next/image'
 
 export const CheckpointDetails = () => {
   const router = useRouter()
@@ -13,7 +14,7 @@ export const CheckpointDetails = () => {
     data: checkpointData,
     isLoading: isCheckpointLoading,
     isError: isCheckpointError
-  } = useGetCheckpoints()
+  } = useGetCheckpoint(id as string)
 
   if (isCheckpointLoading) {
     return (
@@ -28,22 +29,24 @@ export const CheckpointDetails = () => {
       </div>
     )
   } else {
-    if (checkpointData?.data.length !== 0) {
-      const checkpoint = checkpointData.data.filter((item) => item.id === Number(id))
+    if (checkpointData?.data !== null) {
+      const checkpoint = checkpointData.data
       return (
         <>
-          <div className="h-96 w-[35%]">
-            <div className="h-full w-full rounded-xl bg-gray-300"></div>
+          <div className="h-80 w-[25%]">
+            <div className="relative h-full w-full rounded-xl bg-gray-300">
+              <Image src={'data:image/jpeg;base64,' + checkpoint.content} alt="" fill />
+            </div>
           </div>
           <HorizontalTable
-            head={['Имя', 'КПП', 'Камера', 'Дата', 'Время', 'Статус распознавания']}
+            className="h-80"
+            head={['Имя', 'КПП', 'Дата', 'Время', 'Статус распознавания']}
             data={[
-              checkpoint[0].name,
-              checkpoint[0].zone_id,
-              `Камера ${checkpoint[0].camera_id}`,
-              dayjs(checkpoint[0].created_at).locale('ru').format('MMMM YYYY'),
-              dayjs(checkpoint[0].created_at).format('HH:mm'),
-              checkpoint[0].is_approved ? 'Подтверждено' : 'Не подтверждено'
+              checkpoint.name,
+              checkpoint.zone_id,
+              dayjs(checkpoint.created_at).locale('ru').format('MMMM YYYY'),
+              dayjs(checkpoint.created_at).format('HH:mm'),
+              checkpoint.is_approved ? 'Подтверждено' : 'Не подтверждено'
             ]}
           />
         </>

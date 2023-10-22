@@ -17,7 +17,7 @@ export const CheckpointsTable = () => {
     router.push(path)
   }
 
-  const tableHead = ['#', 'Имя', 'КПП', 'Камера', 'Дата', 'Время', 'Статус распознавания']
+  const tableHead = ['#', 'Имя', 'КПП', 'Дата', 'Время', 'Статус распознавания']
 
   console.log(checkpointsData?.data)
 
@@ -56,7 +56,6 @@ export const CheckpointsTable = () => {
                 <td>{index + 1}</td>
                 <td>{row.name}</td>
                 <td>{row.zone_id}</td>
-                <td>Камера {row.camera_id}</td>
                 <td>{dayjs(row.created_at).locale('ru').format('MMMM YYYY')}</td>
                 <td>{dayjs(row.created_at).locale('ru').format('HH:mm')}</td>
                 <td>{row.is_approved ? 'Подтверждено' : 'Не подтверждено'}</td>

@@ -3,16 +3,18 @@ import { cn } from '@/shared/utils'
 
 interface Props {
   children: React.ReactNode
+  className?: string
 }
 
 const font = Exo_2({ subsets: ['cyrillic'] })
 
-export const AuthLayout = ({ children }: Props) => {
+export const AuthLayout = ({ children, className }: Props) => {
   return (
     <div
       className={cn(
-        'flex min-h-[100svh] w-screen flex-col items-center justify-center gap-8 bg-main-white',
-        font.className
+        'max-w-screen flex min-h-[100svh] flex-col items-center justify-center gap-8 bg-main-white',
+        font.className,
+        className
       )}
     >
       {children}
