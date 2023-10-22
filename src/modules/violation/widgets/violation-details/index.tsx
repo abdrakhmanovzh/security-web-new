@@ -83,7 +83,11 @@ export const ViolationDetails = () => {
                 .locale('ru')
                 .format('MMMM YYYY'),
               dayjs(violation?.created_at).format('HH:mm'),
-              'Человек',
+              violation?.detection.object == 'rifle'
+                ? 'Винтовка'
+                : violation?.detection.object == 'knife'
+                ? 'Нож'
+                : 'Пистолет',
               violation?.detection.is_approved ? 'Подтверждено' : 'Не подтверждено'
             ]}
           />
