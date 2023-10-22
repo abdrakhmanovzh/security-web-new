@@ -1,8 +1,7 @@
-<svg width="60" height="57.99999999999999" xmlns="http://www.w3.org/2000/svg" fill="none">
+<svg width="59.99999999999999" height="57.99999999999999" xmlns="http://www.w3.org/2000/svg" fill="none">
  <g>
   <title>Layer 1</title>
-  <ellipse stroke="#000" ry="28" rx="30.16509" id="svg_8" cy="29.18595" cx="29.79339" stroke-width="0" fill="#000000"/>
-  <text transform="matrix(1.07069 0 0 1.23568 -0.222021 -4.16777)" stroke="#000" xml:space="preserve" text-anchor="start" font-family="'Mulish'" font-size="16" id="svg_9" y="30.76535" x="4.68442" stroke-width="0" fill="#ffffff">конец</text>
+  <ellipse stroke="#000" ry="28.32145" rx="29.3704" id="svg_1" cy="28.44056" cx="29.99999" stroke-width="0" fill="#ff0000"/>
  </g>
 
 </svg>
