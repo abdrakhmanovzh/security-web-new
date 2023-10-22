@@ -52,11 +52,11 @@ const MobileGroupMap = ({ tripId }: Props) => {
           />
 
           <Marker
-            icon={L.icon({ iconUrl: '/LocationMarker.svg', iconSize: [30, 30] })}
+            icon={L.icon({ iconUrl: '/start.svg', iconSize: [30, 30] })}
             position={first.value as LatLngExpression}
           />
           <Marker
-            icon={L.icon({ iconUrl: '/LocationMarker.svg', iconSize: [30, 30] })}
+            icon={L.icon({ iconUrl: '/end.svg', iconSize: [30, 30] })}
             position={last.value as LatLngExpression}
           />
         </MapContainer>
