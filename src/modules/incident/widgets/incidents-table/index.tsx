@@ -43,6 +43,8 @@ export const IncidentsTable = () => {
     )
   } else {
     if (incidentsData.data.length > 0) {
+
+      const groups = incidentsData.data.sort((a, b)=> b.detection.id - a.detection.id)
       return (
         <table className="table w-full overflow-x-scroll bg-white">
           <thead className="text-sm text-black">
@@ -55,7 +57,7 @@ export const IncidentsTable = () => {
             </tr>
           </thead>
           <tbody>
-            {incidentsData.data.map((row, index) => (
+            {groups.map((row, index) => (
               <tr
                 key={index}
                 className="cursor-pointer hover:bg-blue-100"
@@ -69,7 +71,7 @@ export const IncidentsTable = () => {
                 <td>{dayjs(row.detection.created_at).locale('ru').format('DD MMMM YYYY')}</td>
                 <td>{dayjs(row.detection.created_at).format('HH:mm')}</td>
                 <td>Человек</td>
-                <td>{row.detection.is_approved ? 'Подтверждено' : 'Не подтверждено'}</td>
+                <td>{row.detection.is_approved ? 'Подтверждено' : 'На рассмотрении'}</td>
               </tr>
             ))}
           </tbody>

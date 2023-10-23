@@ -17,7 +17,7 @@ export const CheckpointsTable = () => {
     router.push(path)
   }
 
-  const tableHead = ['#', 'Имя', 'КПП', 'Дата', 'Время', 'Статус распознавания']
+  const tableHead = ['#', 'Имя', 'КПП', 'Дата', 'Время', 'Статус верификации']
 
   console.log(checkpointsData?.data)
 
@@ -35,6 +35,7 @@ export const CheckpointsTable = () => {
     )
   } else {
     if (checkpointsData.data.length > 0) {
+      const checkpoints = checkpointsData.data.sort((a,b)=> b.id - a.id)
       return (
         <table className="table w-full overflow-x-scroll bg-white">
           <thead className="text-sm text-black">
@@ -47,18 +48,18 @@ export const CheckpointsTable = () => {
             </tr>
           </thead>
           <tbody>
-            {checkpointsData.data.map((row, index) => (
+            {checkpoints.map((row, index) => (
               <tr
                 key={index}
                 className="cursor-pointer hover:bg-blue-100"
-                onClick={() => handleRowClick(`/checkpoints/${index + 1}`)}
+                onClick={() => handleRowClick(`/checkpoints/${row.id}`)}
               >
-                <td>{index + 1}</td>
+                <td>{row.id}</td>
                 <td>{row.name}</td>
                 <td>{row.zone_id}</td>
                 <td>{dayjs(row.created_at).locale('ru').format('DD MMMM YYYY')}</td>
                 <td>{dayjs(row.created_at).locale('ru').format('HH:mm')}</td>
-                <td>{row.is_approved ? 'Подтверждено' : 'Не подтверждено'}</td>
+                <td>{row.is_approved ? 'Верифицировано' : 'Не верифицировано'}</td>
               </tr>
             ))}
           </tbody>

@@ -41,13 +41,13 @@ export const MobileGroupDetails = () => {
               </div>
               <HorizontalTable
                 className="h-80"
-                head={['Имя', 'Этап', 'Дата', 'Время', 'Статус распознавания']}
+                head={['Имя', 'Этап', 'Дата', 'Время', 'Статус верификации']}
                 data={[
                   group.person_name,
                   group.value,
                   dayjs(group.created_at).locale('ru').format('DD MMMM YYYY'),
                   dayjs(group.created_at).format('HH:mm'),
-                  group.is_approved ? 'Подтверждено' : 'Не подтверждено'
+                  group.is_approved ? 'Верифицировано' : 'Не верифицировано'
                 ]}
               />
             </div>

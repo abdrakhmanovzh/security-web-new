@@ -6,6 +6,7 @@ import { Button, ErrorMessage } from '@/shared/ui'
 import { useGetCompanies } from '../../hooks/useGetCompanies'
 import { useGetRegions } from '../../hooks/useGetRegions'
 import { createPerson } from '../../features/create-person'
+import { toast } from 'sonner'
 
 export const CreatePersonForm = () => {
   const router = useRouter()
@@ -50,6 +51,7 @@ export const CreatePersonForm = () => {
       formData.append('photo', file!)
 
       await createPerson(formData)
+      toast.success('Вы успешно зарегистрировали человека!')
       router.push('/')
     } catch (errorObject) {
       const error = errorObject as Error

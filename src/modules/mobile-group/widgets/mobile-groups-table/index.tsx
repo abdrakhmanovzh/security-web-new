@@ -17,7 +17,7 @@ export const MobileGroupsTable = () => {
     router.push(path)
   }
 
-  const tableHead = ['#', 'Имя', 'Дата', 'Время', 'Статус распознавания']
+  const tableHead = ['#', 'Имя', 'Дата', 'Время', 'Статус верификации']
 
   if (isMobileGroupsLoading) {
     return (
@@ -33,6 +33,8 @@ export const MobileGroupsTable = () => {
     )
   } else {
     if (mobileGroupsData.data.length > 0) {
+      const groups = mobileGroupsData.data.sort((a, b)=> dayjs(b.created_at).unix() - dayjs(a.created_at).unix())
+     
       return (
         <table className="table w-full overflow-x-scroll bg-white">
           <thead className="text-sm text-black">
@@ -45,7 +47,7 @@ export const MobileGroupsTable = () => {
             </tr>
           </thead>
           <tbody>
-            {mobileGroupsData.data.map((row, index) => (
+            {groups.map((row, index) => (
               <tr
                 key={index}
                 className="cursor-pointer hover:bg-blue-100"
@@ -55,7 +57,7 @@ export const MobileGroupsTable = () => {
                 <td>{row.person_name}</td>
                 <td>{dayjs(row.created_at).locale('ru').format('DD MMMM YYYY')}</td>
                 <td>{dayjs(row.created_at).locale('ru').format('HH:mm')}</td>
-                <td>{row.is_approved ? 'Подтверждено' : 'Не подтверждено'}</td>
+                <td>{row.is_approved ? 'Верифицировано' : 'Не верифицировано'}</td>
               </tr>
             ))}
           </tbody>

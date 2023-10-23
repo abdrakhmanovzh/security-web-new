@@ -43,6 +43,8 @@ export const ViolationTable = () => {
     )
   } else {
     if (violationsData.data.length > 0) {
+
+      const violations = violationsData.data.sort((a, b) => b.detection.id - a.detection.id)
       return (
         <table className="table w-full overflow-x-scroll bg-white">
           <thead className="text-sm text-black">
@@ -55,7 +57,7 @@ export const ViolationTable = () => {
             </tr>
           </thead>
           <tbody>
-            {violationsData.data.map((row, index) => (
+            {violations.map((row, index) => (
               <tr
                 key={index}
                 className="cursor-pointer hover:bg-blue-100"
@@ -66,8 +68,8 @@ export const ViolationTable = () => {
                 <td>{row.place.name}</td>
                 <td>{row.zone.name}</td>
                 <td>Камера {row.camera.purpose}</td>
-                <td>{dayjs(row.created_at).locale('ru').format('DD MMMM YYYY')}</td>
-                <td>{dayjs(row.created_at).format('HH:mm')}</td>
+                <td>{dayjs(row.detection.created_at).locale('ru').format('DD MMMM YYYY')}</td>
+                <td>{dayjs(row.detection.created_at).format('HH:mm')}</td>
                 <td>
                   {row.detection.object == 'rifle'
                     ? 'Винтовка'

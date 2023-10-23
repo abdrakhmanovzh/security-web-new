@@ -73,7 +73,7 @@ export const IncidentDetails = () => {
                 'Дата',
                 'Время',
                 'Тип нарушения',
-                'Статус распознания'
+                'Статус нарушения'
               ]}
               data={[
                 id,
@@ -86,7 +86,7 @@ export const IncidentDetails = () => {
                   .format('DD MMMM YYYY'),
                 dayjs(incident?.detection.created_at).format('HH:mm'),
                 'Человек',
-                incident?.detection.is_approved ? 'Подтверждено' : 'Не подтверждено'
+                incident?.detection.is_approved ? 'Подтверждено' : 'На рассмотрении'
               ]}
             />
           </div>

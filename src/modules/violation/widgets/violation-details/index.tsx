@@ -80,10 +80,10 @@ export const ViolationDetails = () => {
                 violation?.place.name,
                 violation?.zone.name,
                 `Камера ${violation?.camera.purpose}`,
-                dayjs(violation?.created_at)
+                dayjs(violation?.detection.created_at)
                   .locale('ru')
                   .format('DD MMMM YYYY'),
-                dayjs(violation?.created_at).format('HH:mm'),
+                dayjs(violation?.detection.created_at).format('HH:mm'),
                 violation?.detection.object == 'rifle'
                   ? 'Винтовка'
                   : violation?.detection.object == 'knife'
