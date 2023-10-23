@@ -2,6 +2,7 @@ export type IMobileGroup = {
   created_at: string
   id: number
   face_incident_id: number
+  value: number
   is_approved: boolean
   stage: number
   content: string

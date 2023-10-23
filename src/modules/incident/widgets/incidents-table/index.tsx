@@ -20,7 +20,7 @@ export const IncidentsTable = () => {
     'Дата',
     'Время',
     'Тип нарушения',
-    'Статус распознавания'
+    'Статус нарушения'
   ]
 
   const {
@@ -66,7 +66,7 @@ export const IncidentsTable = () => {
                 <td>{row.place.name}</td>
                 <td>{row.zone.name}</td>
                 <td>Камера {row.camera.purpose}</td>
-                <td>{dayjs(row.detection.created_at).locale('ru').format('MMMM YYYY')}</td>
+                <td>{dayjs(row.detection.created_at).locale('ru').format('DD MMMM YYYY')}</td>
                 <td>{dayjs(row.detection.created_at).format('HH:mm')}</td>
                 <td>Человек</td>
                 <td>{row.detection.is_approved ? 'Подтверждено' : 'Не подтверждено'}</td>

@@ -56,7 +56,7 @@ export const CheckpointsTable = () => {
                 <td>{index + 1}</td>
                 <td>{row.name}</td>
                 <td>{row.zone_id}</td>
-                <td>{dayjs(row.created_at).locale('ru').format('MMMM YYYY')}</td>
+                <td>{dayjs(row.created_at).locale('ru').format('DD MMMM YYYY')}</td>
                 <td>{dayjs(row.created_at).locale('ru').format('HH:mm')}</td>
                 <td>{row.is_approved ? 'Подтверждено' : 'Не подтверждено'}</td>
               </tr>

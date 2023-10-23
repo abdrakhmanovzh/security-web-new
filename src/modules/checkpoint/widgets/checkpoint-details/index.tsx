@@ -40,11 +40,11 @@ export const CheckpointDetails = () => {
           </div>
           <HorizontalTable
             className="h-80"
-            head={['Имя', 'КПП', 'Дата', 'Время', 'Статус распознавания']}
+            head={['Имя', 'КПП', 'Дата', 'Время', 'Статус нарушения']}
             data={[
               checkpoint.name,
               checkpoint.zone_id,
-              dayjs(checkpoint.created_at).locale('ru').format('MMMM YYYY'),
+              dayjs(checkpoint.created_at).locale('ru').format('DD MMMM YYYY'),
               dayjs(checkpoint.created_at).format('HH:mm'),
               checkpoint.is_approved ? 'Подтверждено' : 'Не подтверждено'
             ]}

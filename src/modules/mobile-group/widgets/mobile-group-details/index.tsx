@@ -44,8 +44,8 @@ export const MobileGroupDetails = () => {
                 head={['Имя', 'Этап', 'Дата', 'Время', 'Статус распознавания']}
                 data={[
                   group.person_name,
-                  group.id,
-                  dayjs(group.created_at).locale('ru').format('MMMM YYYY'),
+                  group.value,
+                  dayjs(group.created_at).locale('ru').format('DD MMMM YYYY'),
                   dayjs(group.created_at).format('HH:mm'),
                   group.is_approved ? 'Подтверждено' : 'Не подтверждено'
                 ]}

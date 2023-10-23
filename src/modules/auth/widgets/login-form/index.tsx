@@ -27,7 +27,13 @@ export const LoginForm = () => {
 
   const onSubmit: SubmitHandler<ILogin> = async (data) => {
     try {
-      await login(data)
+      const params = new URLSearchParams({
+        email: data.email,
+        password: data.password
+      });
+
+
+      await login(params)
       router.push('/')
     } catch (errorObject) {
       const error = errorObject as Error

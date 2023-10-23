@@ -30,38 +30,42 @@ const MobileGroupMap = ({ tripId }: Props) => {
       </div>
     )
   } else {
-    const paths = locationsData?.data.map((item) => item.value)
-    const first = locationsData?.data.sort((a, b) => a.id - b.id)[0]
-    const last = locationsData?.data.sort((a, b) => b.id - a.id)[0]
+    if (locationsData.data && locationsData.data.length > 0 && locationsData.data[0].value.length > 0) {
+      const paths = locationsData?.data.map((item) => item.value)
+      const first = locationsData?.data.sort((a, b) => a.id - b.id)[0]
+      const last = locationsData?.data.sort((a, b) => b.id - a.id)[0]
+      return (
+        <div className="mt-4 h-full w-full">
+          <MapContainer
+            className="relative h-full w-full"
+            zoom={13}
+            center={[51.089500263651125, 71.4166339959935]}
+          >
+            <ReactLeafletGoogleLayer
+              apiKey="AIzaSyCvkFDUbjOjZGFOR2rdCcx2fHmeKFAeHqM"
+              type={'satellite'}
+              className="h-full w-full"
+            />
+            <Polyline
+              pathOptions={{ color: 'red', weight: 4 }}
+              positions={paths as LatLngExpression[]}
+            />
 
-    return (
-      <div className="mt-4 h-full w-full">
-        <MapContainer
-          className="relative h-full w-full"
-          zoom={13}
-          center={[51.089500263651125, 71.4166339959935]}
-        >
-          <ReactLeafletGoogleLayer
-            apiKey="AIzaSyCvkFDUbjOjZGFOR2rdCcx2fHmeKFAeHqM"
-            type={'satellite'}
-            className="h-full w-full"
-          />
-          <Polyline
-            pathOptions={{ color: 'red', weight: 4 }}
-            positions={paths as LatLngExpression[]}
-          />
+            <Marker
+              icon={L.icon({ iconUrl: '/start.svg', iconSize: [30, 30] })}
+              position={first.value as LatLngExpression}
+            />
+            <Marker
+              icon={L.icon({ iconUrl: '/end.svg', iconSize: [30, 30] })}
+              position={last.value as LatLngExpression}
+            />
+          </MapContainer>
+        </div>
+      )
+    } else {
+      return <h2 className='mt-4 text-xl'>Нету данных по локациям...</h2>
+    }
 
-          <Marker
-            icon={L.icon({ iconUrl: '/start.svg', iconSize: [30, 30] })}
-            position={first.value as LatLngExpression}
-          />
-          <Marker
-            icon={L.icon({ iconUrl: '/end.svg', iconSize: [30, 30] })}
-            position={last.value as LatLngExpression}
-          />
-        </MapContainer>
-      </div>
-    )
   }
 }
 

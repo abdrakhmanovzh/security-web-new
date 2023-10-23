@@ -17,7 +17,7 @@ export const MobileGroupsTable = () => {
     router.push(path)
   }
 
-  const tableHead = ['#', 'Имя', 'Этап', 'Дата', 'Время', 'Статус распознавания']
+  const tableHead = ['#', 'Имя', 'Дата', 'Время', 'Статус распознавания']
 
   if (isMobileGroupsLoading) {
     return (
@@ -53,8 +53,7 @@ export const MobileGroupsTable = () => {
               >
                 <td>{row.id}</td>
                 <td>{row.person_name}</td>
-                <td>{row.stage}</td>
-                <td>{dayjs(row.created_at).locale('ru').format('MMMM YYYY')}</td>
+                <td>{dayjs(row.created_at).locale('ru').format('DD MMMM YYYY')}</td>
                 <td>{dayjs(row.created_at).locale('ru').format('HH:mm')}</td>
                 <td>{row.is_approved ? 'Подтверждено' : 'Не подтверждено'}</td>
               </tr>

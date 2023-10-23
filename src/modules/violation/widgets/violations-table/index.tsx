@@ -26,7 +26,7 @@ export const ViolationTable = () => {
     'Дата',
     'Время',
     'Тип нарушения',
-    'Статус распознавания'
+    'Статус нарушения'
   ]
 
   if (isViolationsLoading) {
@@ -66,7 +66,7 @@ export const ViolationTable = () => {
                 <td>{row.place.name}</td>
                 <td>{row.zone.name}</td>
                 <td>Камера {row.camera.purpose}</td>
-                <td>{dayjs(row.created_at).locale('ru').format('MMMM YYYY')}</td>
+                <td>{dayjs(row.created_at).locale('ru').format('DD MMMM YYYY')}</td>
                 <td>{dayjs(row.created_at).format('HH:mm')}</td>
                 <td>
                   {row.detection.object == 'rifle'
@@ -75,7 +75,7 @@ export const ViolationTable = () => {
                     ? 'Нож'
                     : 'Пистолет'}
                 </td>
-                <td>{row.detection.is_approved ? 'Подтверждено' : 'Не подтверждено'}</td>
+                <td>{row.detection.is_approved ? 'Подтверждено' : 'На рассмотрении'}</td>
               </tr>
             ))}
           </tbody>

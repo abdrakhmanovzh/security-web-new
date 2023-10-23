@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import { useGetViolations } from '../../hooks'
-import { ErrorMessage, Loading } from '@/shared/ui'
+import { Button, ErrorMessage, Loading } from '@/shared/ui'
 import { HorizontalTable } from '@/modules/core/widgets'
 import dayjs from 'dayjs'
 import 'dayjs/locale/ru'
@@ -55,43 +55,50 @@ export const ViolationDetails = () => {
   } else {
     if (violationsData?.data.length !== 0) {
       return (
-        <>
-          <div className="h-96 w-[35%]">
-            <div className="relative h-full w-full rounded-xl bg-gray-300">
-              {image && <Image src={image} alt="" fill />}
+        <div className='flex flex-col gap-8 w-full'>
+          <div className='flex justify-between'>
+            <div className="h-96 w-[35%]">
+              <div className="relative h-full w-full rounded-xl bg-gray-300">
+                {image && <Image src={image} alt="" fill />}
+              </div>
             </div>
+            <HorizontalTable
+              head={[
+                'ID',
+                'Регион',
+                'Зона/Объект',
+                'КПП',
+                'Камера',
+                'Дата',
+                'Время',
+                'Тип нарушения',
+                'Статус нарушения'
+              ]}
+              data={[
+                id,
+                violation?.region.name,
+                violation?.place.name,
+                violation?.zone.name,
+                `Камера ${violation?.camera.purpose}`,
+                dayjs(violation?.created_at)
+                  .locale('ru')
+                  .format('DD MMMM YYYY'),
+                dayjs(violation?.created_at).format('HH:mm'),
+                violation?.detection.object == 'rifle'
+                  ? 'Винтовка'
+                  : violation?.detection.object == 'knife'
+                    ? 'Нож'
+                    : 'Пистолет',
+                violation?.detection.is_approved ? 'Подтверждено' : 'На рассмотрении'
+              ]}
+            />
           </div>
-          <HorizontalTable
-            head={[
-              'ID',
-              'Регион',
-              'Зона/Объект',
-              'КПП',
-              'Камера',
-              'Дата',
-              'Время',
-              'Тип нарушения',
-              'Статус распознания'
-            ]}
-            data={[
-              id,
-              violation?.region.name,
-              violation?.place.name,
-              violation?.zone.name,
-              `Камера ${violation?.camera.purpose}`,
-              dayjs(violation?.created_at)
-                .locale('ru')
-                .format('MMMM YYYY'),
-              dayjs(violation?.created_at).format('HH:mm'),
-              violation?.detection.object == 'rifle'
-                ? 'Винтовка'
-                : violation?.detection.object == 'knife'
-                ? 'Нож'
-                : 'Пистолет',
-              violation?.detection.is_approved ? 'Подтверждено' : 'Не подтверждено'
-            ]}
-          />
-        </>
+          <div className='flex gap-10 justify-end items-center'>
+            <h2 className='text-xl font-semibold underline underline-offset-4'>Подтвердить нарушение?</h2>
+            <Button text="ПОДТВЕРДИТЬ" className="w-fit px-3 bg-green-500" />
+            <Button text='ОТКЛОНИТЬ' className='w-fit px-3 bg-red-500' />
+          </div>
+        </div>
       )
     }
   }

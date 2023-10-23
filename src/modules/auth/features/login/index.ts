@@ -1,11 +1,11 @@
 import axios, { AxiosError } from 'axios'
 import { ILogin, ILoginResponse } from '@/modules/auth/entities'
 
-export const login = async (data: ILogin) => {
+export const login = async (data: any) => {
   try {
-    const response = await axios.post<ILoginResponse>('http://192.168.50.147:8000/auth/jwt/login', {
-      ...data
-    })
+    const response = await axios.post<ILoginResponse>('http://10.3.31.196:8000/auth/jwt/login',
+      data
+    )
 
     if (response.status === 200) {
       localStorage.setItem('access_token', response.data.access_token)

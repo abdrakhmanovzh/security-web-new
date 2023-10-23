@@ -6,7 +6,7 @@ export const useGetMobileGroupLocations = (tripId: string) => {
   return useQuery(
     ['locations', tripId],
     async () => {
-      return axiosInstance.get<IMmobileGroupLocation[]>(`/face_incident/locations/${tripId}`)
+      return axiosInstance.get<IMmobileGroupLocation[]>(`/face_incident/locations/${tripId}/`)
     },
     {
       enabled: !!tripId
