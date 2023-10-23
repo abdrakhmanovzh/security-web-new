@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  app:
+    image: security-web
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    command: 'npm run dev'
+    volumes:
+        - ./:/project
+    ports:
+      - "2500:3000"
+    networks:
+      - safety
+    
+
+networks:
+  safety:
+    name: safety

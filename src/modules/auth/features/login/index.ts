@@ -3,7 +3,7 @@ import { ILogin, ILoginResponse } from '@/modules/auth/entities'
 
 export const login = async (data: any) => {
   try {
-    const response = await axios.post<ILoginResponse>('http://10.3.31.196:8000/auth/jwt/login',
+    const response = await axios.post<ILoginResponse>('http://' + process.env.NEXT_PUBLIC_BACKEND_HOST + ':' + process.env.NEXT_PUBLIC_BACKEND_PORT + '/auth/jwt/login',
       data
     )
 

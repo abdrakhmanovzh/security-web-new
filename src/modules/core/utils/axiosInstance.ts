@@ -1,9 +1,9 @@
 import axios from 'axios'
 
 export const axiosInstance = axios.create({
-  baseURL: 'http://10.3.31.196:8000/api'
+  baseURL: 'http://' + process.env.NEXT_PUBLIC_BACKEND_HOST + ':' + process.env.NEXT_PUBLIC_BACKEND_PORT +'/api'
 })
-
+console.log('http://' + process.env.NEXT_PUBLIC_BACKEND_HOST + ':' + process.env.NEXT_PUBLIC_BACKEND_PORT +'/api')
 axiosInstance.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('access_token')

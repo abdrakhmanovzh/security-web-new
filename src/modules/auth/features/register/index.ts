@@ -3,7 +3,7 @@ import { IRegister, IRegisterResponse } from '../../entities'
 
 export const register = async (data: IRegister) => {
   try {
-    const response = await axios.post<IRegisterResponse>('http://10.3.31.196:8000/auth/register', {
+    const response = await axios.post<IRegisterResponse>('http://' + process.env.NEXT_PUBLIC_BACKEND_HOST + ':' + process.env.NEXT_PUBLIC_BACKEND_PORT + '/auth/register', {
       ...data
     })
 
